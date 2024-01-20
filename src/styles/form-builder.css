@@ -1,0 +1,67 @@
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+label {
+  width: 100px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+input,
+select {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+  color: #333;
+  width: 200px;
+  height: 32px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-color: #fff;
+  vertical-align: middle;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 16px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333'><path d='M4.5 7.5l3.5 4 3.5-4z'/></svg>");
+}
+
+select option {
+  padding: 6px 10px;
+}
+
+textarea {
+  width: 200px;
+  height: 32px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon {
+  position: relative;
+  width: 200px;
+}
+
+input.styled-input {
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}

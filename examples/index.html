@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script type="text/javascript" src="/src/components/FormBuilder.js" ></script>
+  <link rel="stylesheet" href="/src/styles/form-builder.css">
+
+
+</head>
+
+<script>
+
+  function onload() {
+      // Example usage
+      var formConfig = {
+          rows: 5,
+          columns: 3,
+          fields: [
+              { type: "text", label: "Name", value: "John", events: { change: handleNameChange }, required: true, rowIndex: 0, columnIndex: 0 },
+              { type: "number", label: "Age", value: 25, events: { change: handleAgeChange }, required: false, rowIndex: 0, columnIndex: 1 },
+              { type: "date", label: "Data di Nascita", events: { change: handleAgeChange }, required: false, rowIndex: 1, columnIndex: 0 },
+              { type: "select", label: "City", options: ["New York", "San Francisco"], value: "New York", events: { change: handleCityChange }, required: true, rowIndex: 1, columnIndex: 1 },
+              { type: "textarea", label: "Description", rowIndex: 2, columnIndex: 0 },
+              { type: "datetime-local", label: "Date Time", value: "2018-06-12T19:30", required:true, rowIndex: 2, columnIndex: 1 },
+              { type: "lookup", label: "Account", id: "account", required: true, rowIndex: 3, columnIndex: 0 },
+              { type: "lookup", label: "Account", id: "account", required: true, rowIndex: 3, columnIndex: 1 },
+              { type: "lookup", label: "Account", id: "account", required: false, rowIndex: 0, columnIndex: 3 },
+
+          ]
+      };
+
+    var form = new FormBuilder("customForm", formConfig);
+
+  }
+
+  function handleLookupClick(params) {
+    console.log("Category changed:", event.target.value);
+  }
+
+  function handleCategoryChange(event) {
+      console.log("Category changed:", event.target.value);
+  }
+  // Example event handlers
+  function handleNameChange(event) {
+      console.log("Name changed:", event.target.value);
+  }
+
+  function handleAgeChange(event) {
+      alert("Age changed:", event.target.value);
+  }
+
+  function handleCityChange(event) {
+      console.log("City changed:", event.target.value);
+  }
+
+
+
+</script>
+
+<body onload="onload()">
+  <table id="customForm"></table>
+  
+</body>
+</html>
