@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Formbuilder Example</title>
 
   <script type="text/javascript" src="/src/components/FormBuilder.js" ></script>
   <link rel="stylesheet" href="/src/styles/form-builder.css">
@@ -13,46 +13,132 @@
 <script>
 
   function onload() {
-      // Example usage
-      var formConfig = {
-          rows: 5,
-          columns: 3,
-          fields: [
-              { type: "text", label: "Name", value: "John", events: { change: handleNameChange }, required: true, rowIndex: 0, columnIndex: 0 },
-              { type: "number", label: "Age", value: 25, events: { change: handleAgeChange }, required: false, rowIndex: 0, columnIndex: 1 },
-              { type: "date", label: "Data di Nascita", events: { change: handleAgeChange }, required: false, rowIndex: 1, columnIndex: 0 },
-              { type: "select", label: "City", options: ["New York", "San Francisco"], value: "New York", events: { change: handleCityChange }, required: true, rowIndex: 1, columnIndex: 1 },
-              { type: "textarea", label: "Description", rowIndex: 2, columnIndex: 0 },
-              { type: "datetime-local", label: "Date Time", value: "2018-06-12T19:30", required:true, rowIndex: 2, columnIndex: 1 },
-              { type: "lookup", label: "Account", id: "account", required: true, rowIndex: 3, columnIndex: 0 },
-              { type: "lookup", label: "Account", id: "account", required: true, rowIndex: 3, columnIndex: 1 },
-              { type: "lookup", label: "Account", id: "account", required: false, rowIndex: 0, columnIndex: 3 },
-
-          ]
-      };
+    // Example usage
+    let formConfig = {
+      rows: 5,
+      columns: 4,
+      fields: [
+          {
+              type: "text",
+              label: "Name",
+              id: "name",
+              value: "John",
+              disabled: true,
+              events: { change: handleNameChange },
+              required: true,
+              placeholder: "Enter your name",
+              rowIndex: 0,
+              columnIndex: 0
+          },
+          {
+              type: "number",
+              label: "Age",
+              id: "age",
+              min: 18,
+              max: 114,
+              events: { change: handleAgeChange },
+              required: false,
+              placeholder: "Enter your age",
+              step: 2,
+              maxLength: 3,
+              rowIndex: 0,
+              columnIndex: 1
+          },
+          {
+              type: "date",
+              label: "Data di Nascita",
+              id: "birthdate",
+              min: "1990-01-01", // Minimum allowed date
+              max: "2000-12-31", // Maximum allowed date
+              events: { change: handleBirthdateChange },
+              required: false,
+              placeholder: "Select your birthdate",
+              rowIndex: 1,
+              columnIndex: 0
+          },
+          {
+              type: "select",
+              label: "City",
+              id: "city",
+              options: ["New York", "San Francisco"],
+              value: "New York",
+              events: { change: handleCityChange },
+              required: true,
+              rowIndex: 1,
+              columnIndex: 1
+          },
+          {
+              type: "textarea",
+              label: "Description",
+              id: "desc",
+              placeholder: "Enter a description",
+              rows: 4,
+              cols: 50,
+              rowIndex: 2,
+              columnIndex: 0
+          },
+          {
+              type: "datetime-local",
+              label: "Date Time",
+              id: "dateid",
+              required: true,
+              placeholder: "Select date and time",
+              min: "1990-01-01T12:00", // Minimum allowed datetime
+              max: "2000-12-31T18:00", // Maximum allowed datetime
+              rowIndex: 2,
+              columnIndex: 1
+          },
+          {
+              type: "lookup",
+              label: "Account",
+              id: "account",
+              value: "hello",
+              onLookupClick: handleLookupClick,
+              required: true,
+              placeholder: "Search for an account",
+              rowIndex: 3,
+              columnIndex: 0
+          },
+          {
+              type: "lookup",
+              label: "Contact",
+              required: false,
+              disabled: true,
+              id: "contact",
+              onLookupClick: handleLookupClick,
+              placeholder: "Search for a contact",
+              rowIndex: 3,
+              columnIndex: 1
+          },
+      ]
+    };
 
     var form = new FormBuilder("customForm", formConfig);
 
   }
 
+  function handleBirthdateChange(params) {
+    console.log("Birthdate changed:", event.target.value);
+  }
+
   function handleLookupClick(params) {
-    console.log("Category changed:", event.target.value);
+    alert("Lookup Clicked");
   }
 
   function handleCategoryChange(event) {
-      console.log("Category changed:", event.target.value);
+    console.log("Category changed:", event.target.value);
   }
   // Example event handlers
   function handleNameChange(event) {
-      console.log("Name changed:", event.target.value);
+    console.log("Name changed:", event.target.value);
   }
 
   function handleAgeChange(event) {
-      alert("Age changed:", event.target.value);
+    alert("Age changed:", event.target.value);
   }
 
   function handleCityChange(event) {
-      console.log("City changed:", event.target.value);
+    console.log("City changed:", event.target.value);
   }
 
 
@@ -61,6 +147,5 @@
 
 <body onload="onload()">
   <table id="customForm"></table>
-  
 </body>
 </html>
