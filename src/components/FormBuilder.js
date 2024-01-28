@@ -1,5 +1,3 @@
-//import { FormConfig, FormFieldConfig } from '../models/form-models';
-
 class FormBuilder {
 
     constructor(containerId, formConfig) {
@@ -21,6 +19,11 @@ class FormBuilder {
         if (formConfig && formConfig.fields) {
             formConfig.fields.forEach(fieldConfig => this.addField(fieldConfig));
         }
+    
+        if (formConfig && formConfig.buttons) {
+            formConfig.buttons.forEach(button => this.addButton(button));
+        }
+
     }
 
     addField( fieldConfig ) {
@@ -34,42 +37,67 @@ class FormBuilder {
         }
 
         let input
-
+        let err = null;
+        
         switch (fieldConfig.type) {
             case "text":
                 input = document.createElement("input");
-                input.id = fieldConfig.id;
-                input.type = fieldConfig.type;
-                input.value = fieldConfig.value || "";
-                input.placeholder = fieldConfig.placeholder || "";
-                input.maxLength = fieldConfig.maxLength || 0;
-                input.disabled = fieldConfig.disabled || false;
+                input.id = fieldConfig.id; //string - required
+                input.type = fieldConfig.type; //string - required
+                input.value = fieldConfig.value || ""; //string - required
+                input.placeholder = fieldConfig.placeholder || ""; //string - optional
+                input.minLength = fieldConfig.minLength || 0; // int - optional
+                input.maxLength = fieldConfig.maxLength || 2048; // int - optional
+                input.disabled = fieldConfig.disabled || false; // bool - optional
+                input.className = 'general-field';
+                //err = displayError("Missing Value");
                 break;
 
             case "number":
                 input = document.createElement("input");
+                input.id = fieldConfig.id; // string
+                input.type = fieldConfig.type; // string
+                input.value = fieldConfig.value || ""; // string
+                input.min = fieldConfig.min || -2147483648; // number - optional
+                input.max = fieldConfig.max || 2147483648; // number - optional
+                input.step = fieldConfig.step || ""; //string - required
+                input.placeholder = fieldConfig.placeholder || 0; // number - optional
+                input.disabled = fieldConfig.disabled || false; // bool - optional
+                input.className = 'general-field';
+                break;
+
+            case "boolean":
+                input = document.createElement("select");
                 input.id = fieldConfig.id;
-                input.type = fieldConfig.type;
-                input.value = fieldConfig.value || "";
-                input.min = fieldConfig.min || "";
-                input.max = fieldConfig.max || "";
-                input.step = fieldConfig.step || "";
-                input.placeholder = fieldConfig.placeholder || "";
-                input.maxLength = fieldConfig.maxLength || "";
+                const options = [
+                    { value: "true", displayName: fieldConfig.trueDisplayName || "True" },
+                    { value: "false", displayName: fieldConfig.falseDisplayName || "False" }
+                ];
+
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option.value;
+                    optionElement.text = option.displayName;
+                    input.appendChild(optionElement);
+                });
                 input.disabled = fieldConfig.disabled || false;
+                input.className = 'general-field select-field';
                 break;
 
             case "select":
                 input = document.createElement("select");
                 input.id = fieldConfig.id;
+
                 fieldConfig.options.forEach(option => {
                     const optionElement = document.createElement("option");
-                    optionElement.value = option;
-                    optionElement.text = option;
+                    optionElement.value = option.entityName + "-" + option.id    
+                    optionElement.text = option.displayName;
+                    optionElement.selected = option.selected || false;
+                    optionElement.disabled = option.disabled || false;
                     input.appendChild(optionElement);
                 });
-                input.value = fieldConfig.value || "";
                 input.disabled = fieldConfig.disabled || false;
+                input.className = 'general-field select-field';
                 break;
 
             case "date":
@@ -82,7 +110,7 @@ class FormBuilder {
                 input.placeholder = fieldConfig.placeholder || "";
                 input.min = fieldConfig.min || "";
                 input.max = fieldConfig.max || "";
-
+                input.className = 'general-field';
                 break;
 
             case "textarea":
@@ -93,6 +121,7 @@ class FormBuilder {
                 input.rows = fieldConfig.rows || "";
                 input.cols = fieldConfig.cols || "";
                 input.disabled = fieldConfig.disabled || false;
+                input.className = 'textarea-field';
                 break;
 
            case "lookup":
@@ -110,7 +139,7 @@ class FormBuilder {
                 inputElement.id = fieldConfig.id; // Use the provided ID for the input
                 inputElement.value = fieldConfig.value || "";
                 inputElement.name = fieldConfig.name || fieldConfig.id; // Use the provided name or fallback to ID
-                inputElement.className = 'styled-input';
+                inputElement.className = 'general-field styled-input';
                 if (fieldConfig.disabled) {
                     inputElement.disabled = true;
                 }
@@ -172,16 +201,17 @@ class FormBuilder {
         }
 
         cell.appendChild(input);
+        if (err !== null) {
+            cell.appendChild(err);   
+        }
+
     }
-
-    
-
 }
 
 function addLabel(fieldConfig) {
 
     const label = document.createElement("label");
-
+    label.className = 'label-container';
     label.innerHTML = fieldConfig.label ;
         
     if (fieldConfig.disabled){
@@ -220,4 +250,12 @@ function addLabel(fieldConfig) {
     }
 
     return label;
+}
+
+function displayError( errorMessage ) {
+    const errParagraph = document.createElement("p");
+    errParagraph.className = 'inputError';
+    errParagraph.innerHTML = errorMessage ;
+
+    return errParagraph;
 }

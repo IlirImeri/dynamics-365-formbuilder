@@ -6,7 +6,7 @@
 
   <script type="text/javascript" src="/src/components/FormBuilder.js" ></script>
   <link rel="stylesheet" href="/src/styles/form-builder.css">
-
+  <link rel="stylesheet" href="./index.css">
 
 </head>
 
@@ -15,8 +15,8 @@
   function onload() {
     // Example usage
     let formConfig = {
-      rows: 5,
-      columns: 4,
+      rows: 4,
+      columns: 3,
       fields: [
           {
               type: "text",
@@ -35,7 +35,6 @@
               label: "Age",
               id: "age",
               min: 18,
-              max: 114,
               events: { change: handleAgeChange },
               required: false,
               placeholder: "Enter your age",
@@ -60,12 +59,45 @@
               type: "select",
               label: "City",
               id: "city",
-              options: ["New York", "San Francisco"],
+              options: [
+                {
+                  displayName: "New York",
+                  id:"234", 
+                  entityName: "city",
+                  selected: false,
+                  disabled: true
+                },
+                {
+                  displayName: "Atlanta",
+                  id:"123",
+                  entityName: "city",
+                  selected: true,
+                },
+                {
+                  displayName: "Roma",
+                  id:"123",
+                  entityName: "city",
+                },
+                {
+                  displayName: "Milano",
+                  id:"123",
+                  entityName: "city",
+                }
+              ],
               value: "New York",
               events: { change: handleCityChange },
               required: true,
               rowIndex: 1,
               columnIndex: 1
+          },
+          {
+            type: "boolean",
+            label: "Boolean",
+            id: "booleanField",
+            trueDisplayName: "Yes",
+            falseDisplayName: "No",
+            rowIndex: 2,
+            columnIndex: 1,
           },
           {
               type: "textarea",
@@ -86,7 +118,7 @@
               min: "1990-01-01T12:00", // Minimum allowed datetime
               max: "2000-12-31T18:00", // Maximum allowed datetime
               rowIndex: 2,
-              columnIndex: 1
+              columnIndex: 2
           },
           {
               type: "lookup",
@@ -115,6 +147,10 @@
 
     var form = new FormBuilder("customForm", formConfig);
 
+  }
+
+  function onSubmit() {
+    console.log("form submitted");
   }
 
   function handleBirthdateChange(params) {
@@ -146,6 +182,6 @@
 </script>
 
 <body onload="onload()">
-  <table id="customForm"></table>
+  <div id="customForm"></div>
 </body>
 </html>

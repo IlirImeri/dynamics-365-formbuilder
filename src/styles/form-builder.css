@@ -1,16 +1,10 @@
-body {
-  overflow: hidden;
-  margin: 0;
-}
-
-label {
+.label-container {
   width: 100px;
   margin-right: 10px;
   display: inline-block;
 }
 
-input,
-select {
+.general-field {
   font-family: "Segoe UI", sans-serif;
   font-size: 14px;
   color: #333;
@@ -20,10 +14,10 @@ select {
   border: 1px solid #ccc;
   border-radius: 2px;
   background-color: #fff;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
-select {
+.select-field {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -33,11 +27,11 @@ select {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333'><path d='M4.5 7.5l3.5 4 3.5-4z'/></svg>");
 }
 
-select option {
+.select-field option {
   padding: 6px 10px;
 }
 
-textarea {
+.textarea-field {
   width: 200px;
   height: 32px;
 }
@@ -52,7 +46,7 @@ textarea {
   width: 200px;
 }
 
-input.styled-input {
+.styled-input {
   width: 100%;
 }
 
@@ -64,4 +58,12 @@ input.styled-input {
   cursor: pointer;
   width: 16px;
   height: 16px;
+}
+
+/* add to p element */
+.inputError {  
+  margin: 0;
+  color: rgb(224, 64, 64);
+  display: flex;
+  font-size: small;
 }
